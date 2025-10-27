@@ -1,0 +1,45 @@
+.model-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.selector-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.model-select {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.model-select:hover {
+  border-color: #667eea;
+}
+
+.model-select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+@media (max-width: 768px) {
+  .model-selector {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .model-select {
+    width: 100%;
+  }
+}
