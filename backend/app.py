@@ -47,20 +47,24 @@ def upload_images():
         image_data = []
         
         for file in files:
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                file.save(filepath)
-                image_paths.append(filepath)
-                
-                # Read image as base64 for frontend display
-                with open(filepath, 'rb') as f:
-                    img_base64 = base64.b64encode(f.read()).decode('utf-8')
-                    ext = filename.rsplit('.', 1)[1].lower()
-                    image_data.append({
-                        'name': filename,
-                        'data': f'data:image/{ext};base64,{img_base64}'
-                    })
+            filename = file.filename
+            if not filename or not allowed_file(filename):
+                continue  # skip files without valid names
+
+            safe_name = secure_filename(filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], safe_name)
+            file.save(filepath)
+            image_paths.append(filepath)
+
+            # Read image as base64 for frontend display
+            with open(filepath, 'rb') as f:
+                img_base64 = base64.b64encode(f.read()).decode('utf-8')
+                ext = safe_name.rsplit('.', 1)[1].lower()
+                image_data.append({
+                    'name': safe_name,
+                    'data': f'data:image/{ext};base64,{img_base64}'
+                })
+
         
         if not image_paths:
             return jsonify({'error': 'No valid images uploaded'}), 400
